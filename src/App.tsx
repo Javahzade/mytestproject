@@ -1,85 +1,91 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
-class App extends React.Component {
-  constructor(props: any) {
-    super(props);
-    this.state = {
-      result: '0',
-    };
-  }
+const App = () => {
+  const [result, setResult] = useState('0');
+  const [firstNumber, setFirstNumber] = useState(0);
+  const [isActive, setIsActive] = useState(false);
 
-  setNumber = number => {
-    this.setState({
-      result: this.state.result + number,
-    });
+  const setNumber = number => {
+    if (result === '0') {
+      setResult(number);
+    } else {
+      setResult(result + number);
+    }
   };
 
-  render(): React.ReactNode {
-    return (
-      <View style={styles.container}>
-        <View style={styles.resultContainer}>
-          <Text style={styles.text}>{this.state.result}</Text>
-        </View>
-        <View style={styles.operatorsContainer}>
-          <TouchableOpacity style={styles.operatorButton}>
-            <Text style={styles.buttonText}>+</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.operatorButton}>
-            <Text style={styles.buttonText}>-</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.operatorButton}>
-            <Text style={styles.buttonText}>*</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.operatorButton}>
-            <Text style={styles.buttonText}>/</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.operatorButton}>
-            <Text style={styles.buttonText}>=</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => this.setNumber('7')}>
-            <Text style={styles.buttonText}>7</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => this.setNumber('8')}>
-            <Text style={styles.buttonText}>8</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => this.setNumber('9')}>
-            <Text style={styles.buttonText}>9</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>4</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>5</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>6</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>1</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>2</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>3</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>0</Text>
-          </TouchableOpacity>
-        </View>
+  const addOperand = () => {
+    setFirstNumber(parseInt(result));
+    setResult('');
+    setIsActive(true);
+  };
+
+  const equal = () => {
+    setResult(firstNumber + parseInt(result));
+  };
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.resultContainer}>
+        <Text style={styles.text}>{result}</Text>
       </View>
-    );
-  }
-}
+      <View style={styles.operatorsContainer}>
+        <TouchableOpacity
+          style={[
+            styles.operatorButton,
+            {backgroundColor: isActive ? 'red' : 'purple'},
+          ]}
+          onPress={addOperand}>
+          <Text style={styles.buttonText}>+</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.operatorButton}>
+          <Text style={styles.buttonText}>-</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.operatorButton}>
+          <Text style={styles.buttonText}>*</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.operatorButton}>
+          <Text style={styles.buttonText}>/</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.operatorButton} onPress={equal}>
+          <Text style={styles.buttonText}>=</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.button} onPress={() => setNumber('7')}>
+          <Text style={styles.buttonText}>7</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => setNumber('8')}>
+          <Text style={styles.buttonText}>8</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => setNumber('9')}>
+          <Text style={styles.buttonText}>9</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>4</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>5</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>6</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>1</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>2</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>3</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>0</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
