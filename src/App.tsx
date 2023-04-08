@@ -10,7 +10,6 @@ class App extends React.Component {
   }
 
   setNumber = number => {
-    console.log(number);
     this.setState({
       result: this.state.result + number,
     });
